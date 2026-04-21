@@ -315,14 +315,6 @@ function salvarProduto() {
   const data = { name, description: desc, price, stock, imgUrl: img, updatedAt: new Date().toISOString() };
   const ref  = id ? db.ref("products/" + id) : db.ref("products").push();
 
-ref.set(data)
-  .then(() => {
-    log("Produto salvo com sucesso!");
-  })
-  .catch((err) => {
-    log("Erro ao salvar: " + err.message);
-  });
-
   ref.set(data)
     .then(() => {
       log((id ? "Produto atualizado: " : "Produto cadastrado: ") + name);
@@ -496,7 +488,7 @@ function deleteUser(uid) {
 //  ADMIN — Sistema
 // ============================================================
 function loadSystemLogs() {
-  db.ref("logs").limitToLast(50).once("value").then(s => {
+  db.ref("admin-data/logs").limitToLast(50).once("value").then(s => {
     const logs = s.val();
     const out  = document.getElementById("output");
     if (!logs) { out.querySelector(".logs").innerHTML = '<div class="log-entry">Nenhum log.</div>'; return; }
@@ -529,4 +521,10 @@ function log(msg) {
   entry.className   = "log-entry";
   entry.textContent = "[" + time + "] " + msg;
   logsDiv.prepend(entry);
+
+  // Persiste no Firebase em admin-data/logs
+  db.ref("admin-data/logs").push({
+    message:   msg,
+    timestamp: new Date().toISOString()
+  });
 }
