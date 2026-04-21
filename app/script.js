@@ -168,6 +168,7 @@ function login() {
 
 function logout() {
   cart = {};
+  document.querySelector("#output .logs").innerHTML = "";
   auth.signOut().then(() => { showLogout(); hideAllAreas(); log("Sessão encerrada."); });
 }
 
@@ -515,16 +516,26 @@ function clearAllOrders() {
 //  LOG HELPER
 // ============================================================
 function log(msg) {
-  const logsDiv = document.querySelector("#output .logs");
-  const time    = new Date().toLocaleTimeString("pt-BR");
-  const entry   = document.createElement("div");
-  entry.className   = "log-entry";
-  entry.textContent = "[" + time + "] " + msg;
-  logsDiv.prepend(entry);
+  const user = auth.currentUser;
 
-  // Persiste no Firebase em admin-data/logs
-  db.ref("admin-data/logs").push({
-    message:   msg,
-    timestamp: new Date().toISOString()
+  // Persiste no Firebase apenas se houver usuário logado
+  if (user) {
+    db.ref("admin-data/logs").push({
+      message:   msg,
+      timestamp: new Date().toISOString(),
+      userId:    user.uid,
+      userEmail: user.email
+    });
+  }
+
+  // Exibe no DOM apenas se for admin
+  checkRole(user).then(role => {
+    if (role !== "admin") return;
+    const logsDiv = document.querySelector("#output .logs");
+    const time    = new Date().toLocaleTimeString("pt-BR");
+    const entry   = document.createElement("div");
+    entry.className   = "log-entry";
+    entry.textContent = "[" + time + "] " + msg;
+    logsDiv.prepend(entry);
   });
 }
