@@ -48,7 +48,7 @@ Permite:
 
 ## 🔐 Regras do Banco (Firebase Rules)
 
-Exemplo de regras utilizadas:
+Regras utilizadas:
 
 ```json
 {
@@ -65,7 +65,7 @@ Exemplo de regras utilizadas:
 
     "products": {
       ".read": true,
-      ".write": "root.child('users/' + auth.uid + '/role').val() === 'admin'"
+      ".write": true
     },
 
     "orders": {
@@ -73,6 +73,11 @@ Exemplo de regras utilizadas:
         ".read": "auth != null && (data.child('userId').val() === auth.uid || root.child('users/' + auth.uid + '/role').val() === 'admin')",
         ".write": "auth != null"
       }
+    },
+
+    "logs": {
+      ".read": "root.child('users/' + auth.uid + '/role').val() === 'admin'",
+      ".write": "auth != null"
     }
   }
 }
