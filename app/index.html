@@ -1,1 +1,147 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Controle de Acesso Firebase</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
 
+<!-- ==================== AUTH ==================== -->
+<h2>Autenticação</h2>
+<div id="authArea">
+
+  <div id="loginForm">
+    <input id="email" placeholder="Email" type="email">
+    <input id="password" type="password" placeholder="Senha">
+    <button onclick="login()">Entrar</button>
+    <p>Não tem conta? <a href="#" onclick="showRegister()">Cadastrar</a></p>
+  </div>
+
+  <div id="registerForm" style="display:none">
+    <input id="emailRegister" placeholder="Email" type="email">
+    <input id="passwordRegister" type="password" placeholder="Senha">
+    <button onclick="register()">Cadastrar</button>
+    <p>Já tem conta? <a href="#" onclick="showLogin()">Voltar</a></p>
+  </div>
+
+  <div id="loggedArea" style="display:none">
+    <p id="userInfo"></p>
+    <button onclick="logout()">Sair</button>
+  </div>
+
+</div>
+
+<!-- ==================== USER AREA ==================== -->
+<div id="userArea" style="display:none">
+  <h3>Área do Usuário</h3>
+
+  <!-- Perfil -->
+  <div class="user-content">
+    <h4>Seus Dados</h4>
+    <div id="userProfile">
+      <p><strong>Nome:</strong> <span id="userName">—</span></p>
+      <p><strong>Email:</strong> <span id="userEmail">—</span></p>
+      <p><strong>Membro desde:</strong> <span id="userSince">—</span></p>
+    </div>
+  </div>
+
+  <!-- Catálogo -->
+  <div class="user-content">
+    <h4>Catálogo de Produtos</h4>
+    <button onclick="loadCatalog()">Atualizar Catálogo</button>
+    <div id="catalogList"></div>
+  </div>
+
+  <!-- Carrinho -->
+  <div class="user-content">
+    <h4>Carrinho</h4>
+    <div id="cartList"><p>Seu carrinho está vazio.</p></div>
+    <div id="cartTotal" style="display:none">
+      <p><strong>Total: R$ <span id="cartTotalValue">0,00</span></strong></p>
+      <button onclick="finalizarPedido()">Finalizar Pedido</button>
+      <button onclick="limparCarrinho()">Limpar Carrinho</button>
+    </div>
+  </div>
+
+  <!-- Meus Pedidos -->
+  <div class="user-content">
+    <h4>Meus Pedidos</h4>
+    <button onclick="loadUserOrders()">Atualizar Pedidos</button>
+    <div id="userOrders"><p>Carregando seus pedidos...</p></div>
+  </div>
+
+</div>
+
+<!-- ==================== ADMIN AREA ==================== -->
+<div id="adminArea" style="display:none">
+  <h3>Painel do Administrador</h3>
+
+  <!-- Stats -->
+  <div class="admin-stats">
+    <h4>Estatísticas</h4>
+    <div id="systemStats">
+      <p>Usuários: <span id="totalUsers">0</span> &nbsp;|&nbsp;
+         Pedidos: <span id="totalOrders">0</span> &nbsp;|&nbsp;
+         Produtos: <span id="totalProducts">0</span> &nbsp;|&nbsp;
+         Admins: <span id="adminCount">0</span></p>
+    </div>
+  </div>
+
+  <!-- Produtos -->
+  <div class="admin-section">
+    <h4>Gerenciar Produtos</h4>
+
+    <!-- Form cadastro/edição -->
+    <div id="productForm" class="form-card">
+      <p id="productFormTitle"><strong>Cadastrar Produto</strong></p>
+      <input id="prodId"    type="hidden">
+      <input id="prodName"  placeholder="Nome do produto">
+      <input id="prodDesc"  placeholder="Descrição">
+      <input id="prodPrice" placeholder="Preço (ex: 29.90)" type="number" step="0.01" min="0">
+      <input id="prodStock" placeholder="Estoque" type="number" min="0">
+      <input id="prodImg"   placeholder="URL da imagem (opcional)">
+      <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:4px;">
+        <button onclick="salvarProduto()">Salvar Produto</button>
+        <button onclick="cancelarEdicao()" class="btn-outline-inline">Cancelar</button>
+      </div>
+    </div>
+
+    <button onclick="loadAdminProducts()" class="admin-btn" style="margin-top:12px">Ver Todos os Produtos</button>
+    <div id="adminProductsList"></div>
+  </div>
+
+  <!-- Pedidos -->
+  <div class="admin-orders">
+    <h4>Gerenciar Pedidos</h4>
+    <button onclick="loadAllOrders()" class="admin-btn">Ver Todos os Pedidos</button>
+    <div id="allOrdersList"></div>
+  </div>
+
+  <!-- Usuários -->
+  <div class="admin-users">
+    <h4>Gerenciar Usuários</h4>
+    <button onclick="loadUsers()" class="admin-btn">Listar Usuários</button>
+    <div id="usersList"></div>
+  </div>
+
+  <!-- Sistema -->
+  <div class="admin-system">
+    <h4>Sistema</h4>
+    <button onclick="loadSystemLogs()" class="admin-btn">Ver Logs</button>
+    <button onclick="clearAllOrders()" class="admin-btn danger">Limpar Pedidos</button>
+  </div>
+
+</div>
+
+<!-- LOG OUTPUT -->
+<div id="output" class="output-area"><div class="logs"></div></div>
+
+<script src="https://www.gstatic.com/firebasejs/10.0.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.0.0/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.0.0/firebase-database-compat.js"></script>
+<script src="script.js"></script>
+
+</body>
+</html>
