@@ -130,14 +130,5 @@ git clone https://github.com/pollyanadecastro/Firebase-Project
 * Apenas administradores podem cadastrar produtos
 * Projeto desenvolvido para fins educacionais
 
----
 
-## 📚 Aprendizados
-
-* Integração com Firebase
-* Controle de acesso com regras de segurança
-* Manipulação de dados em tempo real
-* Estruturação de aplicações web simples
-
----
 
