@@ -138,4 +138,7 @@ git clone https://github.com/pollyanadecastro/Firebase-Project
 * Projeto desenvolvido para fins educacionais
 
 
+## Link do video
+
+https://drive.google.com/file/d/1tN7tdma_rMKiBFteyrFDRs3AU3X7hxiK/view?usp=drivesdk
 
