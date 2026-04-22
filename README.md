@@ -58,14 +58,14 @@ Regras utilizadas:
 
     "users": {
       "$uid": {
-        ".read": "auth.uid === $uid || root.child('users/' + auth.uid + '/role').val() === 'admin'",
-        ".write": "auth.uid === $uid || root.child('users/' + auth.uid + '/role').val() === 'admin'"
+        ".read": "auth.uid === $uid && root.child('users/' + auth.uid + '/role').val() === 'admin'",
+        ".write": "auth.uid === $uid && root.child('users/' + auth.uid + '/role').val() === 'admin'"
       }
     },
 
     "products": {
       ".read": true,
-      ".write": true
+      ".write": "root.child('users/' + auth.uid + '/role').val() === 'admin'"
     },
 
     "orders": {
